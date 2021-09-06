@@ -205,8 +205,8 @@ assinaladas_materia = assinaladas[(assinaladas['Matéria'] == materia_escolhida)
 st.write(pd.DataFrame({
     "Gabarito": assinaladas_materia['Gabarito'],
     "A":assinaladas_materia['A'],
-    "B":assinaladas_materia['A'],
-    "C":assinaladas_materia['A'],
-    "D":assinaladas_materia['A'],
-    "E":assinaladas_materia['A']
+    "B":assinaladas_materia['B'],
+    "C":assinaladas_materia['C'],
+    "D":assinaladas_materia['D'],
+    "E":assinaladas_materia['E']
 }))
