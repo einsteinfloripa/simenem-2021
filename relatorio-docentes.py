@@ -3,7 +3,6 @@ import numpy as np
 import streamlit as st
 import PIL
 
-data = pd.read_pickle('dados-relatorio-alunos/data.pkl')
 
 st.title('Relatório Docentes')
 
