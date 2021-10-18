@@ -18,9 +18,9 @@ st.subheader("**1.1 Dados sobre as Questões Objetivas**")
 
 # media e % das objetivas 
 media_acerto_materia = pd.read_pickle('dados-relatorio-docentes/media_acerto_materia.pkl')
-media_acertos_obj = media_acerto_materia['Correção'].mean()
+media_acertos_obj = media_acerto_materia['Média'].mean()
 
-st.write("A média geral de acertos da prova objetiva foi ", str(round(media_acerto_materia['Correção','Total Acertos'].sum() / media_acerto_materia['Correção','Total Respostas'].sum() , 3)*100)+'%')
+st.write("A média geral de acertos da prova objetiva foi ", str(round(media_acerto_materia['Total Acertos'].sum() / media_acerto_materia['Total Respostas'].sum() , 3)*100)+'%')
 
 
 # media geral de acertos por materia
@@ -39,10 +39,10 @@ media_acerto_materia = media_acerto_materia.reset_index()
 media_acerto_materia.set_index('Matéria',inplace=True)
 
 st.write(pd.DataFrame({
-   'Total de Acertos': media_acerto_materia['Correção', "Total Acertos"],
-   'Total de Respostas': media_acerto_materia['Correção', "Total Respostas"],
-   'Média': round(media_acerto_materia['Correção', 'Média'],3)*100,
-    "Desvio Padrão": round(media_acerto_materia['Correção', 'Desvio Padrão'],3)*100
+   'Total de Acertos': media_acerto_materia["Total Acertos"],
+   'Total de Respostas': media_acerto_materia["Total Respostas"],
+   'Média': round(media_acerto_materia['Média'],3)*100,
+    "Desvio Padrão": round(media_acerto_materia['Desvio Padrão'],3)*100
 }))
 
 st.markdown("**Média de acertos por área de conhecimento (em %)**")
@@ -71,7 +71,7 @@ media_acerto_materia = get_media_a_m()
 st.markdown("**Gráfico da porcentagem média de acerto em cada matéria**")
 
 
-media_acerto_materia['Média'] = media_acerto_materia['Correção', "Média"]
+media_acerto_materia['Média'] = media_acerto_materia["Média"]
 
 st.bar_chart(data=media_acerto_materia['Média'])
 st.write("Passando o mouse por cima do gráfico você pode identificar qual é a matéria e nota referentes a cada barra.")
@@ -117,7 +117,7 @@ st.header("**2. Dados sobre a Matéria Selecionada**")
 
 st.write("Aqui você encontra dados sobre a matéria que foi selecionada na caixa localizada na aba lateral.")
 st.write(pd.DataFrame({
-    "Média Acertos(em %)": round(dados_materia_escolhida['Correção', 'Média'],3)*100
+    "Média Acertos(em %)": round(dados_materia_escolhida['Média'],3)*100
 }))
 
 
@@ -126,7 +126,6 @@ st.write(pd.DataFrame({
 media_acerto_questao = pd.read_pickle('dados-relatorio-docentes/media_acerto_questao.pkl')
 
 st.subheader("**2.1   Média de acertos por questão**")
-st.write("Nesta seção são discretizados os acertos por questão")
 media_acerto_questao = media_acerto_questao.reset_index()
 questao_materia_escolhida = media_acerto_questao[(media_acerto_questao['Matéria'] == materia_escolhida)]
 
@@ -138,14 +137,14 @@ st.write(pd.DataFrame({
     "Assunto": questao_materia_escolhida['Assunto'],
     "Dificuldade": questao_materia_escolhida['Dificuldade'],
     "Média de Acerto": round(questao_materia_escolhida['Média'],3)*100,
-    "Desvio Padrão": round(questao_materia_escolhida['Correção','Desvio Padrão'],3)*100,
+    "Desvio Padrão": round(questao_materia_escolhida['Desvio Padrão'],3)*100,
     "Tempo Médio(minutos)": round(questao_materia_escolhida["tempo_no_exercicio(s)"]/60,2)
 }))
 
-grafico_questoes = questao_materia_escolhida['Correção','Média']
+grafico_questoes = questao_materia_escolhida['Média']
 grafico_questoes = grafico_questoes.reset_index()
 grafico_questoes['questao'] = grafico_questoes['Questão'].astype(str)
-grafico_questoes["media"] = grafico_questoes['Correção','Média']
+grafico_questoes["media"] = grafico_questoes['Média']
 grafico_questoes.set_index('questao',inplace=True)
 
 st.bar_chart(data=grafico_questoes['media'])
@@ -169,10 +168,10 @@ assuntos_materia_escolhida.set_index('Assunto',inplace=True)
 st.subheader("**2.2   Média de acertos por assunto**")
 
 st.write(pd.DataFrame({
-    "Total Acertos": assuntos_materia_escolhida['Correção','Total Acertos'],
-    'Total Respostas': assuntos_materia_escolhida['Correção','Total Respostas'],
-    'Média (em %)': round(assuntos_materia_escolhida['Correção','Média'],2)*100,
-    "Desvio Padrão": round(assuntos_materia_escolhida['Correção','Desvio Padrão'],3)*100
+    "Total Acertos": assuntos_materia_escolhida['Total Acertos'],
+    'Total Respostas': assuntos_materia_escolhida['Total Respostas'],
+    'Média (em %)': round(assuntos_materia_escolhida['Média'],2)*100,
+    "Desvio Padrão": round(assuntos_materia_escolhida['Desvio Padrão'],3)*100
 }))
 
 
@@ -190,18 +189,21 @@ dificuldade_materia_escolhida.set_index('Dificuldade',inplace=True)
 
 
 st.write(pd.DataFrame({
-    "Total Acertos": dificuldade_materia_escolhida['Correção','Total Acertos'],
-    'Total Respostas': dificuldade_materia_escolhida['Correção','Total Respostas'],
-    'Média (em %)': round(dificuldade_materia_escolhida['Correção','Média'],3)*100,
-    "Desvio Padrão": round(dificuldade_materia_escolhida['Correção','Desvio Padrão'],3)*100
+    "Total Acertos": dificuldade_materia_escolhida['Total Acertos'],
+    'Total Respostas': dificuldade_materia_escolhida['Total Respostas'],
+    'Média (em %)': round(dificuldade_materia_escolhida['Média'],3)*100,
+    "Desvio Padrão": round(dificuldade_materia_escolhida['Desvio Padrão'],3)*100
 }))
 
 st.subheader("**2.4   Distribuição das respostas**")
+
+st.write("Esta tabela mostra quantas vezes cada alternativa foi assinalada.")
 
 assinaladas = pd.read_pickle("dados-relatorio-docentes/assinaladas.pkl")
 assinaladas_materia = assinaladas[(assinaladas['Matéria'] == materia_escolhida)]
 
 # para nao mostrar on indices do dataframe na tabela do streamlit, podemos mudar o indice
+assinaladas_materia.set_index("Questão", inplace=True)
 st.write(pd.DataFrame({
     "Gabarito": assinaladas_materia['Gabarito'],
     "A":assinaladas_materia['A'],
